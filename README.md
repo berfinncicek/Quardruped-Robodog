@@ -21,8 +21,8 @@
   - Her bacağın gideceği konumu kordinat olarak alır
   - Gitmesi gereken konum için Femur, Tibia ve Coxa açılarını hesaplar
   - Ayak uçlarını istenilen konuma açı verisi alınmadan kendisi hesaplayarak götürür
- 
-  https://github.com/berfinncicek/Quardruped-Robodog/assets/107148931/4380fcd4-9abe-483b-b7d9-a138225c4fc3
+ ![kinematik](https://github.com/berfinncicek/Quardruped-Robodog/assets/107148931/e0677449-ed3e-4ae8-9e66-9a903e0ab2e5)
+
 
 
 https://github.com/berfinncicek/Quardruped-Robodog/assets/107148931/4e4f1e92-da8c-4909-8264-80582108dd2b
