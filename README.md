@@ -16,7 +16,7 @@ This project is a robotic dog controlled via a microcontroller. It integrates se
 - `Adafruit_PWMServoDriver.h`
 - `MPU6050.h`
 - `TFLI2C.h`
-- `SPI.h`
+- `SPI.h` 
 - `Adafruit_GFX.h`
 - `Adafruit_PCD8544.h`
 
