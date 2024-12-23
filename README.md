@@ -2,7 +2,7 @@
 
 This project is a robotic dog controlled via a microcontroller. It integrates servo motors, sensors, and a display module to simulate walking, balance control, and movement dynamics.
 
-## **Hardware Components**
+## **Hardware Components** 
 - **Arduino Board**: Main controller.
 - **Adafruit PWM Servo Driver**: Controls multiple servo motors.
 - **MPU6050 Accelerometer/Gyroscope**: Measures orientation and balance.
