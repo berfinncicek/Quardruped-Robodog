@@ -1,3 +1,4 @@
+
 #include <Wire.h>
 #include <Servo.h>
 #include <Adafruit_PWMServoDriver.h>
@@ -65,7 +66,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 #define LFT 0
 #define LFF 1
 #define LFC 2
-#define RFT 3
+#define RFT 12
 #define RFF 4
 #define RFC 5
 #define LRT 6
@@ -79,16 +80,16 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 #define LFF_D 55
 #define LFC_D 123
 
-#define RFT_D 45
-#define RFF_D 115
+#define RFT_D 40
+#define RFF_D 110
 #define RFC_D 102
 
-#define LRT_D 142
+#define LRT_D 138
 #define LRF_D 80
 #define LRC_D 35
 
-#define RRT_D 29
-#define RRF_D 110
+#define RRT_D 25
+#define RRF_D 105
 #define RRC_D 93
 
 TFLI2C tflI2C;
@@ -130,7 +131,7 @@ void setup() {
   motor[1].set_pin(LFF);
   motor[2].set_pin(LFC);
 
-  motor[3].set_pin(RFT);
+  motor[12].set_pin(RFT);
   motor[4].set_pin(RFF);
   motor[5].set_pin(RFC);
 
@@ -145,7 +146,7 @@ void setup() {
   motor[0].set_point(LFT_D);
   motor[1].set_point(LFF_D);
   motor[2].set_point(LFC_D);
-  motor[3].set_point(RFT_D);
+  motor[12].set_point(RFT_D);
   motor[4].set_point(RFF_D);
   motor[5].set_point(RFC_D);
   motor[6].set_point(LRT_D);
@@ -162,87 +163,100 @@ void setup() {
   allfronttibia(65);
   delay(500);
   allreirtibia(65);
-    Serial.begin(9600);
+  Serial.begin(115200);
 
-  //Initialize Display
-  display.begin();
-  display.setContrast(57);
-  display.clearDisplay();
-  display.setTextColor(BLACK);
-  display.setTextSize(2);
 
-  // you can change the contrast around to adapt the display for the best viewing!
-  display.setContrast(57);
-
-  // Clear the buffer.
-  display.clearDisplay();
-
-  // Invert Display
-  //display.invertDisplay(1);
 }
 
-char veri = 's'; 
 
 void loop() {
 
-  //if (Serial.available()) {
-    // String receivedData = Serial.readStringUntil('\r');
-    // Serial.println("Alınan veri: " + receivedData);
 
-    // if (receivedData.equals("merhaba")) { 
-    //   fakestep(RFT, RFF, LRT, LRF);
-    //   fakestep(LFT, LFF, RRT, RRF);
-    //  
+//fakestep_2(RFT,RFF,LRT,LRF, LFT,LFF,RRT,RRF);
+fakestep(RFT,RFF,LRT,LRF);
+delay(50);
+fakestep(LFT,LFF,RRT,RRF);
+  
 
-      //dinamik();
+}
 
-      if(tflI2C.getData(tfDist, tfAddr)){
 
-      if(tfDist>15){
-        Serial.println(String(tfDist)+" cm / " + String(tfDist/2.54)+" inches");
-        fakestep(RFT, RFF, LRT, LRF);
-        delay(75);
-        fakestep(LFT, LFF, RRT, RRF);
-    }
-    else{
-      allcoxa(0);
-      delay(500);
-      allfemur(-45);
-      delay(500);
-      allfronttibia(65);
-      delay(500);
-      allreirtibia(65);
-      }
-    delay(50);
+void fakestep_2(int tb_1, int fm_1,int tb_2, int fm_2, int tb_3, int fm_3,int tb_4, int fm_4){
 
-   
-    // Display bitmap
-    display.drawBitmap(0, 0,  epd_bitmap_kisspng_siberian_husky_puppy_face_smiley_clip_art_bone_dog_5abe4a305c2b07, 84, 48, BLACK);
-    display.display();
-    display.clearDisplay();
+    swrite(motor[fm_1],-60);
+
+    swrite(motor[tb_1],90);
+
+
+    swrite(motor[fm_3],-50);
     
- }
+    swrite(motor[tb_3],60);
 
-//  if(tflI2C.getData(tfDist, tfAddr)){
-//         Serial.println(String(tfDist)+" cm / " + String(tfDist/2.54)+" inches");
-//     }
-//     delay(50);
+    
+    delay(350);
+
+    swrite(motor[fm_2],-60);
+
+    swrite(motor[tb_2],90);
 
 
-    // kinematik(-8,20);
-  
-    // kinematik(-1,15.80);
-      
-    // kinematik(0,16.80);
+    swrite(motor[fm_4],-50);
 
-    // kinematik(2,20);
-   
+    swrite(motor[tb_4], 60);
 
-  // elver();
-  
+    
+    delay(350);
+
+    swrite(motor[fm_1],-50);
+
+    swrite(motor[tb_1],60);
+
+    swrite(motor[fm_3],-60);
+
+    swrite(motor[tb_3],90);
+
+    delay(100);
+
+    swrite(motor[fm_2],-50);
+
+    swrite(motor[tb_2],60);
+
+
+    swrite(motor[fm_4],-60);
+    
+    swrite(motor[tb_4], 90);
+
+    delay(100);
+
+}
+
+
+void fakestep(int tb_1, int fm_1,int tb_2, int fm_2){
+
+
+    swrite(motor[fm_1],-60);
+
+    swrite(motor[tb_1],85);
+
+    swrite(motor[fm_2],-60);
+
+    swrite(motor[tb_2],85);
+
+    delay(300);
+
+    swrite(motor[fm_1],-50);
+
+    swrite(motor[tb_1],65);
+
+    swrite(motor[fm_2],-50);
+
+    swrite(motor[tb_2],65);
+
+
 }
 
 void calculate_func(){
+
 
   int start = -8;
   int stop = 2;
@@ -257,7 +271,6 @@ void calculate_func(){
 
 
 }
-
 
 void elver(){
 
@@ -288,6 +301,7 @@ void step(int tb_1, int fm_1,int tb_2, int fm_2, float tibia_Angles, float femur
   delay(100);
   swrite(motor[tb_2],tibia_Angles);
   swrite(motor[fm_2],femur_Angles);
+
 
 }
 
@@ -332,8 +346,6 @@ void dinamik(){
   delay(50);
 
 }
-
-
 void kinematik(float x , float y){
   float a_kenar= 13.1;
   float c_kenar= 10.7;
@@ -405,7 +417,6 @@ void swrite(motor_set n1, int degree){
     }
 
 }
-
 double cv(int x){
   double degree;
   degree = (double(620-105)/180*x)+105;
@@ -482,25 +493,3 @@ void pos_cal(){
 
 }
 
-void fakestep(int tb_1, int fm_1,int tb_2, int fm_2){
-
-    swrite(motor[fm_1],-60);
-
-    swrite(motor[tb_1],90);
-
-    swrite(motor[fm_2],-60);
-
-    swrite(motor[tb_2],90);
-
-    delay(200);
-
-    swrite(motor[fm_1],-50);
-
-    swrite(motor[tb_1],60);
-
-    swrite(motor[fm_2],-50);
-
-    swrite(motor[tb_2],60);
-
-
-}
